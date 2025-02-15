@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { fetchContacts } from "../contacts/operations";
 
 export const goitApi = axios.create({
   baseURL: "https://connections-api.goit.global",
@@ -31,7 +30,6 @@ export const login = createAsyncThunk(
     try {
       const { data } = await goitApi.post("users/login", credentials);
       setAuthHeader(data.token);
-      thunkApi.dispatch(fetchContacts());
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

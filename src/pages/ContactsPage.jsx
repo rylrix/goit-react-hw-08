@@ -10,6 +10,7 @@ import { fetchContacts } from "../redux/contacts/operations";
 const ContactsPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("Fetching contacts");
     dispatch(fetchContacts());
   }, [dispatch]);
   return (

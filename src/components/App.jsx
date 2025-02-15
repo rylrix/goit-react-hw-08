@@ -8,7 +8,6 @@ import ContactsPage from "../pages/ContactsPage";
 import LoginForm from "../pages/LoginPage";
 import RegistrationForm from "../pages/RegistrationPage";
 
-import { fetchContacts } from "../redux/contacts/operations";
 import { refreshUser } from "../redux/auth/operations";
 import { selectIsRefreshing } from "../redux/auth/selectors";
 
@@ -28,42 +27,37 @@ function App() {
   return isRefreshing ? (
     <p>Loading...</p>
   ) : (
-    <div>
+    <Layout>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={<NotFound />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
 
-          <Route
-            path="/contacts"
-            element={
-              <PrivateRoute>
-                <ContactsPage />
-              </PrivateRoute>
-            }
-          />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute>
+              <ContactsPage />
+            </PrivateRoute>
+          }
+        />
 
-          <Route
-            path="/register"
-            element={
-              <RestrictedRoute
-                component={<RegistrationForm />}
-                redirectTo="/contacts"
-              />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RestrictedRoute
-                component={<LoginForm />}
-                redirectTo="/contacts"
-              />
-            }
-          />
-        </Route>
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute
+              component={<RegistrationForm />}
+              redirectTo="/contacts"
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute component={<LoginForm />} redirectTo="/contacts" />
+          }
+        />
       </Routes>
-    </div>
+    </Layout>
   );
 }
 
