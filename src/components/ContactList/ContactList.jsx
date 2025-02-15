@@ -5,12 +5,13 @@ import {
   selectError,
   selectFilteredContacts,
   selectIsLoading,
-} from "../../redux/contactsSlice";
+} from "../../redux/contacts/selectors";
 
 const ContactList = () => {
   const filteredContacts = useSelector(selectFilteredContacts);
 
   const error = useSelector(selectError);
+
   const isLoading = useSelector(selectIsLoading);
   return (
     <div>
@@ -19,7 +20,7 @@ const ContactList = () => {
           <Contact key={id} id={id} name={name} number={number} />
         ))}
       </ul>
-      {error && <h2>Something went wrong!</h2>}
+      {error ? <h2>Something went wrong!</h2> : null}
       {isLoading && <h2>Loading...</h2>}
     </div>
   );

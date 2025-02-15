@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import s from "./Contact.module.css";
 import { IoPerson, IoCall } from "react-icons/io5";
-import { deleteContact } from "../../redux/contactsOps";
+import { deleteContact } from "../../redux/contacts/operations";
 
 const Contact = ({ id, name, number }) => {
   const dispatch = useDispatch();
