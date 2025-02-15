@@ -9,7 +9,7 @@ import LoginForm from "../pages/LoginPage";
 import RegistrationForm from "../pages/RegistrationPage";
 
 import { fetchContacts } from "../redux/contacts/operations";
-import { refreshUserThunk } from "../redux/auth/operations";
+import { refreshUser } from "../redux/auth/operations";
 import { selectIsRefreshing } from "../redux/auth/selectors";
 
 import Layout from "./Layout";
@@ -22,7 +22,7 @@ function App() {
   const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
-    dispatch(refreshUserThunk());
+    dispatch(refreshUser());
   }, [dispatch]);
 
   useEffect(() => {
