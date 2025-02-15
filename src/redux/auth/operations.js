@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { fetchContacts } from "../contacts/operations";
 
 export const goitApi = axios.create({
   baseURL: "https://connections-api.goit.global",
@@ -27,8 +28,8 @@ export const loginThunk = createAsyncThunk(
   async (credentials, thunkApi) => {
     try {
       const { data } = await goitApi.post("users/login", credentials);
-
       setAuthHeader(data.token);
+      thunkApi.dispatch(fetchContacts());
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -52,15 +53,16 @@ export const refreshUserThunk = createAsyncThunk(
   "auth/refresh",
   async (_, thunkApi) => {
     const savedToken = thunkApi.getState().auth.token;
-    if (savedToken === null) {
-      return thunkApi.rejectWithValue("token is not exist");
-    }
+
     console.log("Saved Token:", savedToken);
+    if (savedToken === null) {
+      return thunkApi.rejectWithValue("Token does not exist");
+    }
+
     setAuthHeader(savedToken);
 
     try {
       const { data } = await goitApi.get("users/current");
-
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
