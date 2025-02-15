@@ -25,15 +25,13 @@ function App() {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
-  return isRefreshing ? null : (
+  return isRefreshing ? (
+    <p>Loading...</p>
+  ) : (
     <div>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="*" element={<NotFound />} />
 
           <Route

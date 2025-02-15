@@ -9,7 +9,9 @@ export const goitApi = axios.create({
 export const setAuthHeader = (token) => {
   goitApi.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
-
+export const clearAuthHeader = () => {
+  delete goitApi.defaults.headers.common.Authorization;
+};
 export const register = createAsyncThunk(
   "auth/register",
   async (credentials, thunkApi) => {
@@ -39,8 +41,8 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", async (_, thunkApi) => {
   try {
-    const { data } = await goitApi.post("users/logout");
-    return data;
+    await goitApi.post("users/logout");
+    clearAuthHeader();
   } catch (error) {
     return thunkApi.rejectWithValue(error.message);
   }
@@ -51,8 +53,7 @@ export const refreshUser = createAsyncThunk(
   async (_, thunkApi) => {
     const savedToken = thunkApi.getState().auth.token;
 
-    console.log("Saved Token:", savedToken);
-    if (savedToken === null) {
+    if (!savedToken) {
       return thunkApi.rejectWithValue("Token does not exist");
     }
 
